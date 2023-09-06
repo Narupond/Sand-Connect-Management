@@ -1,0 +1,17 @@
+.logo {
+    width: 150px;
+    height: 50px;
+    display: flex;
+    align-items: left;
+    margin: 10px 0px 0px 10px;
+  }
+
+/* @media screen and (max-width: 480px) {
+  .header {
+    padding: 0;
+  }
+  .user {
+    margin-right: 130px;
+    margin-top: 6px;
+  }
+} */

@@ -1,0 +1,77 @@
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* .ant-table-thead th,
+.ant-table-tbody td {
+  text-align: center;
+} */
+
+.name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hncode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.birth_date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.verify {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.btn-reset {
+    border: none;
+    box-shadow: none;
+}
+
+/* 
+@media screen and (max-width: 480px) {
+
+} */
