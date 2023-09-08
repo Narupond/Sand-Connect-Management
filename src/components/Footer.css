@@ -4,9 +4,10 @@
     left: 0px;
     padding: 10px;
     margin: 0;
-    text-align: left;
+    text-align: center;
     width: 100%;
-    color: white;
+    color: #fff;
+    background-color: #1e376d;
 }
 
 .txt-footer {

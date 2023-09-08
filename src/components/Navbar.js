@@ -16,10 +16,6 @@ function Navbar() {
                     </div>
                 </Col>
             </Row>
-            <Row justify="end">
-                <Col span={4}>1</Col>
-                <Col span={4}>2</Col>
-            </Row>
         </>
     )
 }
