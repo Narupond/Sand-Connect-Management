@@ -2,6 +2,7 @@ import React from 'react';
 import './AppHeader.css';
 import { Layout } from 'antd';
 import { Row, Col } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 const { Header } = Layout;
 

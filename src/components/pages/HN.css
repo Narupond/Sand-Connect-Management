@@ -1,3 +1,7 @@
+/* .input {
+    font-family: 'Prompt', sans-serif;
+} */
+
 .icon {
     display: flex;
     align-items: center;
@@ -38,3 +42,10 @@
     font-weight: bold;
 }
 
+.modal{
+    overflow-y: hidden;
+}
+
+.detail-label {
+    font-weight: bold;
+}
