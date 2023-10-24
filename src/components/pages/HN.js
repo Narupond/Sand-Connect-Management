@@ -1,5 +1,8 @@
 import React from 'react';
 import './HN.css';
+import AppHeader from '../AppHeader';
+import Navbar from '../Navbar';
+import Appfooter from '../Footer';
 import { Row, Col, Form } from 'antd';
 import { Table, Button, Input, Modal } from 'antd';
 import { InfoCircleOutlined, CheckCircleOutlined, CheckOutlined, CopyOutlined } from '@ant-design/icons';
@@ -8,7 +11,6 @@ import FormItem from 'antd/es/form/FormItem';
 import address from "../../base_address.json"
 
 function HN() {
-
 
   const [dataSource, setDatasource] = useState([
     {
@@ -52,7 +54,7 @@ function HN() {
       hncode: '07-24-000000',
       patient_id: 12403301022010141,
       raw_patient_id: '12403301022010141',
-      create_hn_status: 'notcreate',
+      create_hn_status: 'notcreated',
       verify_status: 'verify',
       fix_gender_id: '1',
       birthdate: '1985-09-01',
@@ -115,11 +117,19 @@ function HN() {
   const [open, setOpen] = useState(false);
   const [details, setDetails] = useState({});
 
+  const status = [
+    { key: '1', create_hn_status: 'created' },
+    { key: '2', create_hn_status: 'notcreated' },
+  ];
+  const verify = [
+    { key: '1', verify_status: 'verify' },
+    { key: '2', verify_status: 'notverify' }
+  ];
 
-  useEffect(()=>{
+  useEffect(() => {
     onAddress()
-  },[details])
-  
+  }, [details])
+
   const columns = [
     {
       key: '1',
@@ -250,45 +260,84 @@ function HN() {
         return record.pid.toLowerCase().includes(value.toLowerCase())
       },
     },
-
     {
       key: '5',
       title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>สถานะ</div>,
       render: (record) => {
-        return record.create_hn_status === 'created' ? (
-          <CheckCircleOutlined className='icon' style={{ color: '#1e376d', fontSize: '25px' }} />
-        ) : (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#52c41a', borderBlockColor: '#52c41a', color: 'white', padding: 0, width: 90 }}  >
-              สร้าง HN
-            </Button>
-          </div>
-
+        return (
+          <>
+            {record.create_hn_status === 'created' ? (
+              <CheckCircleOutlined className='icon' style={{ color: '#1e376d', fontSize: '25px' }} />
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#52c41a', borderBlockColor: '#52c41a', color: 'white', padding: 0, width: 90 }}>
+                  สร้าง HN
+                </Button>
+              </div>
+            )}
+          </>
         );
       },
+      filters: [
+        { text: 'สร้าง HN แล้ว', value: 'created' },
+        { text: 'ยังไม่สร้าง HN', value: 'notcreated' }
+      ],
+      onFilter: (value, record) => record.create_hn_status === value,
     },
-
     {
       key: '6',
       title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ตรวจสอบ</div>,
       render: (record) => {
-        return record.verify_status === 'verify' ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#02BC7D' }}>
-            <CheckOutlined className='icon' style={{ color: '#02BC7D', fontSize: '20px' }} />
-            ตรวจสอบแล้ว
-          </div>
+        return (
+          <>
+            {record.verify_status === 'verify' ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#02BC7D' }}>
+                <CheckOutlined className='icon' style={{ color: '#02BC7D', fontSize: '20px' }} />
+                ตรวจสอบแล้ว
+              </div>
 
-        ) : (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#1890FF', borderBlockColor: '#1890FF', color: 'white', padding: 0, width: 90 }}>
-              Verify
-            </Button>
-          </div>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#1890FF', borderBlockColor: '#1890FF', color: 'white', padding: 0, width: 90 }}>
+                  Verify
+                </Button>
+              </div>
+            )}
+          </>
         );
       },
+      filters: [
+        { text: 'ตรวจสอบแล้ว', value: 'verify' },
+        { text: 'ยังไม่ตรวจสอบ', value: 'notverify' }
+      ],
+      onFilter: (value, record) => record.verify_status === value,
     },
     {
       key: '7',
+      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>PDPA</div>,
+      render: (record) => {
+        return (
+          <>
+            {record.create_hn_status === 'created' ? (
+              <CheckCircleOutlined className='icon' style={{ color: '#1e376d', fontSize: '25px' }} />
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#52c41a', borderBlockColor: '#52c41a', color: 'white', padding: 0, width: 90 }}>
+                  สร้าง HN
+                </Button>
+              </div>
+            )}
+          </>
+        );
+      },
+      filters: [
+        { text: 'สร้าง HN แล้ว', value: 'created' },
+        { text: 'ยังไม่สร้าง HN', value: 'notcreated' }
+      ],
+      onFilter: (value, record) => record.create_hn_status === value,
+    },
+    {
+      key: '8',
       title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>รายละเอียด</div>,
       render: (record) => {
         return (
@@ -301,15 +350,60 @@ function HN() {
 
 
   ];
-  function handleCopy(text) {
-    const input = document.createElement('input');
-    input.value = text;
-    document.body.appendChild(input);
+  // function handleCopy(text) {
+  //   const input = document.createElement('input');
+  //   input.value = text;
+  //   document.body.appendChild(input);
 
-    input.select();
+  //   input.select();
+  //   document.execCommand('copy');
+
+  //   document.body.removeChild(input);
+  // }
+  const [fullnameIsCopied, setFullnameIsCopied] = useState(false);
+  const [nicknameIsCopied, setNicknameIsCopied] = useState(false);
+  const [pidIsCopied, setPidIsCopied] = useState(false);
+  const [hncodeIsCopied, setHncodeIsCopied] = useState(false);
+  const [patientidIsCopied, setPatientidIsCopied] = useState(false);
+  const [genderIsCopied, setGenderIsCopied] = useState(false);
+  const [birthdateIsCopied, setBirthdateIsCopied] = useState(false);
+  const [occupationIsCopied, setOccupationIsCopied] = useState(false);
+  const [maritalIsCopied, setMaritalIsCopied] = useState(false);
+  const [religionIsCopied, setReligionIsCopied] = useState(false);
+  const [drugIsCopied, setDrugIsCopied] = useState(false);
+  const [bloodIsCopied, setBloodIsCopied] = useState(false);
+  const [placenameIsCopied, setPlacenameIsCopied] = useState(false);
+  const [homeidIsCopied, setHomeidIsCopied] = useState(false);
+  const [roadIsCopied, setRoadIsCopied] = useState(false);
+  const [laneIsCopied, setLaneIsCopied] = useState(false);
+  const [villageIsCopied, setVillageIsCopied] = useState(false);
+  const [tambolIsCopied, setTambolIsCopied] = useState(false);
+  const [amphurIsCopied, setAmphurIsCopied] = useState(false);
+  const [changwatIsCopied, setChangwatIsCopied] = useState(false);
+  const [postcodeIsCopied, setPostcodeIsCopied] = useState(false);
+  const [emailIsCopied, setEmailIsCopied] = useState(false);
+  const [phoneIsCopied, setPhoneIsCopied] = useState(false);
+  const [nameIsCopied, setnameIsCopied] = useState(false);
+  const [relationIsCopied, setRelationIsCopied] = useState(false);
+  const [numberphoneIsCopied, setNumberphoneIsCopied] = useState(false);
+
+  const handleCopyClick = (value, setIsCopied) => {
+    const tempInput = document.createElement('input');
+    tempInput.value = value;
+  
+    document.body.appendChild(tempInput);
+  
+    tempInput.select();
+  
     document.execCommand('copy');
-
-    document.body.removeChild(input);
+  
+    document.body.removeChild(tempInput);
+  
+    setIsCopied(true);
+  
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1000);
   }
 
   const onCreate = (data) => {
@@ -319,28 +413,26 @@ function HN() {
   const [changwatName, setChangwatName] = useState('');
   const [amphurName, setAmphurName] = useState('');
   const [tambolName, setTambolName] = useState('');
-  const onAddress = ()=>{
-   
-      const data = address.base_address;
-     
-      const tambol = details.fix_changwat_id+details.fix_amphur_id+details.fix_tambol_id
-      const amphur = details.fix_changwat_id+details.fix_amphur_id+'00'
-      const changwat = details.fix_changwat_id+'0000'
-      data.map(item=>{
-        if(item.fullcode === tambol){
-          console.log(item.description)
-          setTambolName(item.description);
-        }
-        if(item.fullcode === amphur){
-          console.log(item.description)
-          setAmphurName(item.description)
-        }
-        if(item.fullcode === changwat){
-          console.log(item.description)
-          setChangwatName(item.description);
-        }
-      })
-    
+  const onAddress = () => {
+    const data = address.base_address;
+    const tambol = details.fix_changwat_id + details.fix_amphur_id + details.fix_tambol_id
+    const amphur = details.fix_changwat_id + details.fix_amphur_id + '00'
+    const changwat = details.fix_changwat_id + '0000'
+    data.map(item => {
+      if (item.fullcode === tambol) {
+        console.log(item.description)
+        setTambolName(item.description);
+      }
+      if (item.fullcode === amphur) {
+        console.log(item.description)
+        setAmphurName(item.description)
+      }
+      if (item.fullcode === changwat) {
+        console.log(item.description)
+        setChangwatName(item.description);
+      }
+    })
+
 
   }
 
@@ -352,8 +444,11 @@ function HN() {
   // }, []);
 
   return (
+
     <div>
-     
+      <AppHeader />
+      <Navbar />
+      <Appfooter />
       <Table
         className='table'
         columns={columns}
@@ -386,7 +481,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.fullname} 
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.fullname)}>คัดลอก</CopyOutlined>
+                            {fullnameIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.fullname, setFullnameIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -401,7 +500,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.nickname}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.nickname)}>คัดลอก</CopyOutlined>
+                            {nicknameIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.nickname, setNicknameIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -418,7 +521,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.pid}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.pid)}>คัดลอก</CopyOutlined>
+                            {pidIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.pid, setPidIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -433,7 +540,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.hncode}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.hncode)}>คัดลอก</CopyOutlined>
+                            {hncodeIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.hncode, setHncodeIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -450,7 +561,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.patient_id}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.patient_id)}>คัดลอก</CopyOutlined>
+                            {patientidIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.patient_id, setPatientidIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -465,7 +580,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.fix_gender_id}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.fix_gender_id)}>คัดลอก</CopyOutlined>
+                            {genderIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.fix_gender_id, setGenderIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -482,7 +601,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.birthdate}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.birthdate)}>คัดลอก</CopyOutlined>
+                            {birthdateIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.birthdate, setBirthdateIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -497,7 +620,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.occupation}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.occupation)}>คัดลอก</CopyOutlined>
+                            {occupationIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.occupation, setOccupationIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -514,7 +641,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.marital_status}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.marital_status)}>คัดลอก</CopyOutlined>
+                            {maritalIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.marital_status, setMaritalIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -529,7 +660,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.religion}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.religion)}>คัดลอก</CopyOutlined>
+                            {religionIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.religion, setReligionIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -546,7 +681,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.drug_food_allergy_description}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.drug_food_allergy_description)}>คัดลอก</CopyOutlined>
+                            {drugIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.drug_food_allergy_description, setDrugIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -561,7 +700,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.blood_group}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.blood_group)}>คัดลอก</CopyOutlined>
+                            {bloodIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.blood_group, setBloodIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -579,7 +722,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.place_name || `${details.home_id} ถนน ${details.road} ซอย ${details.lane} หมู่ ${details.village}`}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.place_name)}>คัดลอก</CopyOutlined>
+                            {placenameIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.place_name, setPlacenameIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -594,7 +741,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.home_id}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.home_id)}>คัดลอก</CopyOutlined>
+                            {homeidIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.home_id, setHomeidIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -611,7 +762,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.road}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.road)}>คัดลอก</CopyOutlined>
+                            {roadIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.road, setRoadIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -626,7 +781,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.lane}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.lane)}>คัดลอก</CopyOutlined>
+                            {laneIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.lane, setLaneIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -643,7 +802,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.village}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.village)}>คัดลอก</CopyOutlined>
+                            {villageIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.village, setVillageIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -658,7 +821,11 @@ function HN() {
                       <Input placeholder="" className='input' value={tambolName}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy()}>คัดลอก</CopyOutlined>
+                            {tambolIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(tambolName, setTambolIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -675,7 +842,11 @@ function HN() {
                       <Input placeholder="" className='input' value={amphurName}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy()}>คัดลอก</CopyOutlined>
+                            {amphurIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(amphurName, setAmphurIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -690,7 +861,11 @@ function HN() {
                       <Input placeholder="" className='input' value={changwatName}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined >คัดลอก</CopyOutlined>
+                            {changwatIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(changwatName, setChangwatIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -707,7 +882,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.postcode}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.postcode)}>คัดลอก</CopyOutlined>
+                            {postcodeIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.postcode, setPostcodeIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -722,7 +901,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.email}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.email)}>คัดลอก</CopyOutlined>
+                            {emailIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.email, setEmailIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -739,7 +922,11 @@ function HN() {
                       <Input placeholder="" className='input' value={details.phone}
                         suffix={
                           <div className='input-suffix'>
-                            <CopyOutlined onClick={() => handleCopy(details.phone)}>คัดลอก</CopyOutlined>
+                            {phoneIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.phone, setPhoneIsCopied)} />
+                            )}
                           </div>
                         } />
                     </div>
@@ -754,12 +941,16 @@ function HN() {
                   <FormItem name='emergency_contact_name'>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <label className='detail-label' style={{ marginBottom: '8px' }}>ชื่อ - สกุล</label>
-                      <Input placeholder="" className='input' value={details.emergency_contact_name} 
-                      suffix={
-                        <div className='input-suffix'>
-                          <CopyOutlined onClick={() => handleCopy(details.emergency_contact_name)}>คัดลอก</CopyOutlined>
-                        </div>
-                      }/>
+                      <Input placeholder="" className='input' value={details.emergency_contact_name}
+                        suffix={
+                          <div className='input-suffix'>
+                            {nameIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.emergency_contact_name, setnameIsCopied)} />
+                            )}
+                          </div>
+                        } />
                     </div>
                   </FormItem>
                 </Form>
@@ -769,12 +960,16 @@ function HN() {
                   <FormItem name='emergency_contact_relation'>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <label className='detail-label' style={{ marginBottom: '8px' }}>ความสัมพันธ์</label>
-                      <Input placeholder="" className='input' value={details.emergency_contact_relation} 
-                      suffix={
-                        <div className='input-suffix'>
-                          <CopyOutlined onClick={() => handleCopy(details.emergency_contact_relation)}>คัดลอก</CopyOutlined>
-                        </div>
-                      }/>
+                      <Input placeholder="" className='input' value={details.emergency_contact_relation}
+                        suffix={
+                          <div className='input-suffix'>
+                            {relationIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.emergency_contact_relation, setRelationIsCopied)} />
+                            )}
+                          </div>
+                        } />
                     </div>
                   </FormItem>
                 </Form>
@@ -786,12 +981,16 @@ function HN() {
                   <FormItem name='emergency_contact_numberphone'>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <label className='detail-label' style={{ marginBottom: '8px' }}>เบอร์โทร</label>
-                      <Input placeholder="" className='input' value={details.emergency_contact_numberphone} 
-                      suffix={
-                        <div className='input-suffix'>
-                          <CopyOutlined onClick={() => handleCopy(details.emergency_contact_numberphone)}>คัดลอก</CopyOutlined>
-                        </div>
-                      }/>
+                      <Input placeholder="" className='input' value={details.emergency_contact_numberphone}
+                        suffix={
+                          <div className='input-suffix'>
+                            {numberphoneIsCopied ? (
+                              <CheckOutlined className='copy' />
+                            ) : (
+                              <CopyOutlined className='copy' onClick={() => handleCopyClick(details.emergency_contact_numberphone, setNumberphoneIsCopied)} />
+                            )}
+                          </div>
+                        } />
                     </div>
                   </FormItem>
                 </Form>

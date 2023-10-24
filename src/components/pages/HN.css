@@ -49,3 +49,46 @@
 .detail-label {
     font-weight: bold;
 }
+
+.copy {
+    padding: 6px;
+    background: #1890FF;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+.copy:active{
+    background: rgba(24, 144, 255, 0.5);
+}
+/* .check {
+    padding: 4px 4px;
+    background: #1890FF;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+} */
+/* .copy::before{
+    content: "Copied";
+    position: absolute;
+    top: -50px;
+    right: 0px;
+    background: #1890FF;
+    padding: 8px 10px;
+    border-radius: 20px;
+    font-size: 15px;
+}
+.copy::after{
+    content: "";
+    position: absolute;
+    top: -20px;
+    right: 25px;
+    width: 10px;
+    height: 10px;
+    background: #1890FF;
+    transform: rotate(45deg);
+    display: none;
+} */
+/* .copy:active::before,
+.copy:active::after {
+    display: block;
+} */
