@@ -3,363 +3,16 @@ import './HN.css';
 import AppHeader from '../AppHeader';
 import Navbar from '../Navbar';
 import Appfooter from '../Footer';
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, Spin } from 'antd';
 import { Table, Button, Input, Modal } from 'antd';
 import { InfoCircleOutlined, CheckCircleOutlined, CheckOutlined, CopyOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import FormItem from 'antd/es/form/FormItem';
-import address from "../../base_address.json"
+import address from "../../base_address.json";
+import image from '../../wating.gif';
 
 function HN() {
 
-  const [dataSource, setDatasource] = useState([
-    {
-      fullname: 'นางสาวนฤพร พัฒสงค์',
-      nickname: 'กิ๊ก',
-      pid: '1234567891000',
-      user_id: 'U9ea774d7645rdfg5r4dc903076a644a47',
-      hncode: '03-26-000000',
-      patient_id: 12303301022010141,
-      raw_patient_id: '12303301022010141',
-      create_hn_status: 'created',
-      verify_status: 'notverify',
-      fix_gender_id: '2',
-      birthdate: '2001-03-26',
-      occupation: 'นักศึกษา',
-      marital_status: '1',
-      religion: 'พุทธ',
-      drug_food_allergy_status: '1',
-      drug_food_allergy_description: '',
-      blood_group: 'B',
-      place_name: '90 ถนน กาญจนวณิชย์ ซอย1 หมู่ 10',
-      home_id: '90',
-      road: 'กาญจนวณิชย์',
-      lane: '1',
-      village: '10',
-      fix_changwat_id: '80',
-      fix_amphur_id: '14',
-      fix_tambol_id: '05',
-      postcode: '80120',
-      email: 'naruporn.ph@gmail.com',
-      phone: '0612199260',
-      emergency_contact_name: 'นางสาวศศิวิมล ดวงมุสิก',
-      emergency_contact_relation: 'มารดา',
-      emergency_contact_numberphone: '0872634680',
-    },
-    {
-      fullname: 'นายเทส ทดสอบ ',
-      nickname: 'เทส',
-      pid: '1234567891111',
-      user_id: 'U9ea774d7645rdfg5r4dc903076a644b48',
-      hncode: '07-24-000000',
-      patient_id: 12403301022010141,
-      raw_patient_id: '12403301022010141',
-      create_hn_status: 'notcreated',
-      verify_status: 'verify',
-      fix_gender_id: '1',
-      birthdate: '1985-09-01',
-      occupation: 'นักกฎหมาย',
-      marital_status: '2',
-      religion: 'คริสต์',
-      drug_food_allergy_status: '2',
-      drug_food_allergy_description: 'อาหารทะเล',
-      blood_group: 'A',
-      place_name: '',
-      home_id: '123',
-      road: 'พลพิชัย',
-      lane: 'ทุ่งรี',
-      village: '1',
-      fix_changwat_id: '90',
-      fix_amphur_id: '11',
-      fix_tambol_id: '02',
-      postcode: '90110',
-      email: 'tester.test@gmail.com',
-      phone: '090252548',
-      emergency_contact_name: 'นางสาวสมศรี มีหมอน',
-      emergency_contact_relation: 'มารดา',
-      emergency_contact_numberphone: '0937564832',
-    },
-    {
-      fullname: 'นางสาวนูรมา จูกูยี',
-      nickname: 'นุชชี่',
-      pid: '1234567891222',
-      user_id: 'U9ea774d7645rdfg5r4dc903076a644c49',
-      hncode: '11-13-000000',
-      patient_id: 12503301022010141,
-      raw_patient_id: '12503301022010141',
-      create_hn_status: 'created',
-      verify_status: 'notverify',
-      fix_gender_id: '2',
-      birthdate: '2002-11-13',
-      occupation: 'นักศึกษา',
-      marital_status: '1',
-      religion: 'อิสลาม',
-      drug_food_allergy_status: '2',
-      drug_food_allergy_description: 'ขนแมว',
-      blood_group: 'AB',
-      place_name: '',
-      home_id: '30',
-      road: 'เพชรเกษม ',
-      lane: '2',
-      village: '8',
-      fix_changwat_id: '96',
-      fix_amphur_id: '03',
-      fix_tambol_id: '06',
-      postcode: '90110',
-      email: 'nurma.chu@gmail.com',
-      phone: '0616720446',
-      emergency_contact_name: 'นายสมนึก จูกูยี',
-      emergency_contact_relation: 'บิดา',
-      emergency_contact_numberphone: '0843395474',
-    }
-  ])
-
-  const [open, setOpen] = useState(false);
-  const [details, setDetails] = useState({});
-
-  const status = [
-    { key: '1', create_hn_status: 'created' },
-    { key: '2', create_hn_status: 'notcreated' },
-  ];
-  const verify = [
-    { key: '1', verify_status: 'verify' },
-    { key: '2', verify_status: 'notverify' }
-  ];
-
-  useEffect(() => {
-    onAddress()
-  }, [details])
-
-  const columns = [
-    {
-      key: '1',
-      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ชื่อ - สกุล</div>,
-      dataIndex: 'fullname',
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
-        return (
-          <>
-            <Input
-              autoFocus
-              placeholder='Search name here'
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : [])
-                confirm({ closeDropdown: false })
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              onBlur={() => {
-                confirm();
-              }}
-              style={{ width: 188, marginBottom: 20, margin: 5 }}
-            />
-            <div className='btn-search'>
-              <Button className='btn-reset'
-                onClick={() => {
-                  clearFilters();
-                  confirm({ closeDropdown: true });
-                }}>Reset</Button>
-              <Button type="primary"
-                onClick={() => {
-                  confirm();
-                }}>OK</Button>
-            </div>
-          </>
-        );
-      },
-      onFilter: (value, record) => {
-        return record.fullname.toLowerCase().includes(value.toLowerCase())
-      },
-    },
-    {
-      key: '2',
-      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>hncode</div>,
-      dataIndex: 'hncode',
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
-        return (
-          <>
-            <Input
-              autoFocus
-              placeholder='Search hncode here'
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : [])
-                confirm({ closeDropdown: false })
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              onBlur={() => {
-                confirm();
-              }}
-              style={{ width: 188, marginBottom: 20, margin: 5 }}
-            />
-            <div className='btn-search'>
-              <Button className='btn-reset'
-                onClick={() => {
-                  clearFilters();
-                  confirm({ closeDropdown: true });
-                }}>Reset</Button>
-              <Button type="primary"
-                onClick={() => {
-                  confirm();
-                }}>OK</Button>
-            </div>
-          </>
-        );
-      },
-      onFilter: (value, record) => {
-        return record.hncode.toLowerCase().includes(value.toLowerCase())
-      },
-    },
-    {
-      key: '3',
-      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>วัน/เดือน/ปี เกิด</div>,
-      dataIndex: 'birthdate',
-      sorter: (a, b) => a.birthdate > b.birthdate
-    },
-    {
-      key: '4',
-      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>เลขประจำตัวประชาชน</div>,
-      dataIndex: 'pid',
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
-        return (
-          <>
-            <Input
-              autoFocus
-              placeholder='Search pid here'
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : [])
-                confirm({ closeDropdown: false })
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              onBlur={() => {
-                confirm();
-              }}
-              style={{ width: 188, marginBottom: 20, margin: 5 }}
-            />
-            <div className='btn-search'>
-              <Button className='btn-reset'
-                onClick={() => {
-                  clearFilters();
-                  confirm({ closeDropdown: true });
-                }}>Reset</Button>
-              <Button type="primary"
-                onClick={() => {
-                  confirm();
-                }}>OK</Button>
-            </div>
-          </>
-        );
-      },
-      onFilter: (value, record) => {
-        return record.pid.toLowerCase().includes(value.toLowerCase())
-      },
-    },
-    {
-      key: '5',
-      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>สถานะ</div>,
-      render: (record) => {
-        return (
-          <>
-            {record.create_hn_status === 'created' ? (
-              <CheckCircleOutlined className='icon' style={{ color: '#1e376d', fontSize: '25px' }} />
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#52c41a', borderBlockColor: '#52c41a', color: 'white', padding: 0, width: 90 }}>
-                  สร้าง HN
-                </Button>
-              </div>
-            )}
-          </>
-        );
-      },
-      filters: [
-        { text: 'สร้าง HN แล้ว', value: 'created' },
-        { text: 'ยังไม่สร้าง HN', value: 'notcreated' }
-      ],
-      onFilter: (value, record) => record.create_hn_status === value,
-    },
-    {
-      key: '6',
-      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ตรวจสอบ</div>,
-      render: (record) => {
-        return (
-          <>
-            {record.verify_status === 'verify' ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#02BC7D' }}>
-                <CheckOutlined className='icon' style={{ color: '#02BC7D', fontSize: '20px' }} />
-                ตรวจสอบแล้ว
-              </div>
-
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#1890FF', borderBlockColor: '#1890FF', color: 'white', padding: 0, width: 90 }}>
-                  Verify
-                </Button>
-              </div>
-            )}
-          </>
-        );
-      },
-      filters: [
-        { text: 'ตรวจสอบแล้ว', value: 'verify' },
-        { text: 'ยังไม่ตรวจสอบ', value: 'notverify' }
-      ],
-      onFilter: (value, record) => record.verify_status === value,
-    },
-    {
-      key: '7',
-      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>PDPA</div>,
-      render: (record) => {
-        return (
-          <>
-            {record.create_hn_status === 'created' ? (
-              <CheckCircleOutlined className='icon' style={{ color: '#1e376d', fontSize: '25px' }} />
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#52c41a', borderBlockColor: '#52c41a', color: 'white', padding: 0, width: 90 }}>
-                  สร้าง HN
-                </Button>
-              </div>
-            )}
-          </>
-        );
-      },
-      filters: [
-        { text: 'สร้าง HN แล้ว', value: 'created' },
-        { text: 'ยังไม่สร้าง HN', value: 'notcreated' }
-      ],
-      onFilter: (value, record) => record.create_hn_status === value,
-    },
-    {
-      key: '8',
-      title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>รายละเอียด</div>,
-      render: (record) => {
-        return (
-          <>
-            <InfoCircleOutlined className='icon' onClick={() => { setDetails(record); setOpen(true); }} style={{ color: '#1e376d', fontSize: '25px' }} />
-          </>
-        )
-      }
-    },
-
-
-  ];
-  // function handleCopy(text) {
-  //   const input = document.createElement('input');
-  //   input.value = text;
-  //   document.body.appendChild(input);
-
-  //   input.select();
-  //   document.execCommand('copy');
-
-  //   document.body.removeChild(input);
-  // }
   const [fullnameIsCopied, setFullnameIsCopied] = useState(false);
   const [nicknameIsCopied, setNicknameIsCopied] = useState(false);
   const [pidIsCopied, setPidIsCopied] = useState(false);
@@ -386,21 +39,293 @@ function HN() {
   const [nameIsCopied, setnameIsCopied] = useState(false);
   const [relationIsCopied, setRelationIsCopied] = useState(false);
   const [numberphoneIsCopied, setNumberphoneIsCopied] = useState(false);
+  const [changwatName, setChangwatName] = useState('');
+  const [amphurName, setAmphurName] = useState('');
+  const [tambolName, setTambolName] = useState('');
+  const [open, setOpen] = useState(false);
+  const [details, setDetails] = useState({});
+  const [waiting,setWaiting] = useState(false);
+  const [data, setData] = useState([]);
+
+
+  const status = [
+    { key: '1', create_hn_status: 'created' },
+    { key: '2', create_hn_status: 'notcreated' },
+  ];
+  const verify = [
+    { key: '1', verify_status: 'verify' },
+    { key: '2', verify_status: 'notverify' }
+  ];
+
+  useEffect(() => {
+      fetchData();
+    // fetch('http://localhost:3001/api/data')
+    //   .then((response) => response.json())
+    //   .then((data) => 
+    //   console.log(data),
+    //   setData(data));
+  }, []);
+
+  useEffect(() => {
+    onAddress()
+  }, [details])
+
+
+const fetchData = async()=>{
+  setWaiting(false);
+  const response = await fetch('http://localhost:3001/api/data',{
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  if(response.status===200){
+    const json = await response.json();
+    const data = json.data;
+    console.log(data);
+    setData(data)
+    setWaiting(true);
+    
+  }
+}
+const columns = [
+  {
+    key: 'fullname',
+    title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ชื่อ - สกุล</div>,
+    dataIndex: 'fullname',
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
+      return (
+        <>
+          <Input
+            autoFocus
+            placeholder='Search name here'
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+              confirm({ closeDropdown: false })
+            }}
+            onPressEnter={() => {
+              confirm();
+            }}
+            onBlur={() => {
+              confirm();
+            }}
+            style={{ width: 188, marginBottom: 20, margin: 5 }}
+          />
+          <div className='btn-search'>
+            <Button className='btn-reset'
+              onClick={() => {
+                clearFilters();
+                confirm({ closeDropdown: true });
+              }}>Reset</Button>
+            <Button type="primary"
+              onClick={() => {
+                confirm();
+              }}>OK</Button>
+          </div>
+        </>
+      );
+    },
+    onFilter: (value, record) => {
+      return record.fullname.toLowerCase().includes(value.toLowerCase())
+    },
+  },
+  {
+    key: 'hncode',
+    title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>hncode</div>,
+    dataIndex: 'hncode',
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
+      return (
+        <>
+          <Input
+            autoFocus
+            placeholder='Search hncode here'
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+              confirm({ closeDropdown: false })
+            }}
+            onPressEnter={() => {
+              confirm();
+            }}
+            onBlur={() => {
+              confirm();
+            }}
+            style={{ width: 188, marginBottom: 20, margin: 5 }}
+          />
+          <div className='btn-search'>
+            <Button className='btn-reset'
+              onClick={() => {
+                clearFilters();
+                confirm({ closeDropdown: true });
+              }}>Reset</Button>
+            <Button type="primary"
+              onClick={() => {
+                confirm();
+              }}>OK</Button>
+          </div>
+        </>
+      );
+    },
+    onFilter: (value, record) => {
+      return record.hncode.toLowerCase().includes(value.toLowerCase())
+    },
+  },
+  {
+    key: 'birthdate',
+    title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>วัน/เดือน/ปี เกิด</div>,
+    dataIndex: 'birthdate',
+    sorter: (a, b) => a.birthdate > b.birthdate
+  },
+  {
+    key: 'pid',
+    title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>เลขประจำตัวประชาชน</div>,
+    dataIndex: 'pid',
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
+      return (
+        <>
+          <Input
+            autoFocus
+            placeholder='Search pid here'
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+              confirm({ closeDropdown: false })
+            }}
+            onPressEnter={() => {
+              confirm();
+            }}
+            onBlur={() => {
+              confirm();
+            }}
+            style={{ width: 188, marginBottom: 20, margin: 5 }}
+          />
+          <div className='btn-search'>
+            <Button className='btn-reset'
+              onClick={() => {
+                clearFilters();
+                confirm({ closeDropdown: true });
+              }}>Reset</Button>
+            <Button type="primary"
+              onClick={() => {
+                confirm();
+              }}>OK</Button>
+          </div>
+        </>
+      );
+    },
+    onFilter: (value, record) => {
+      return record.pid.toLowerCase().includes(value.toLowerCase())
+    },
+  },
+  {
+    key: 'create_hn_status',
+    title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>สถานะ</div>,
+    render: (record) => {
+      return (
+        <>
+          {record.create_hn_status === 'created' ? (
+            <CheckCircleOutlined className='icon' style={{ color: '#1e376d', fontSize: '25px' }} />
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#52c41a', borderBlockColor: '#52c41a', color: 'white', padding: 0, width: 90 }}>
+                สร้าง HN
+              </Button>
+            </div>
+          )}
+        </>
+      );
+    },
+    filters: [
+      { text: 'สร้าง HN แล้ว', value: 'created' },
+      { text: 'ยังไม่สร้าง HN', value: 'notcreated' }
+    ],
+    onFilter: (value, record) => record.create_hn_status === value,
+  },
+  {
+    key: 'verify_status',
+    title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }}>ตรวจสอบ</div>,
+    render: (record) => {
+      return (
+        <>
+          {record.verify_status === 'verify' ? (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#02BC7D' }}>
+              <CheckOutlined className='icon' style={{ color: '#02BC7D', fontSize: '20px' }} />
+              ตรวจสอบแล้ว
+            </div>
+
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#1890FF', borderBlockColor: '#1890FF', color: 'white', padding: 0, width: 90 }}>
+                Verify
+              </Button>
+            </div>
+          )}
+        </>
+      );
+    },
+    filters: [
+      { text: 'ตรวจสอบแล้ว', value: 'verify' },
+      { text: 'ยังไม่ตรวจสอบ', value: 'notverify' }
+    ],
+    onFilter: (value, record) => record.verify_status === value,
+  },
+  {
+    key: 'create_hn_status',
+    title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>PDPA</div>,
+    render: (record) => {
+      return (
+        <>
+          {record.create_hn_status === 'created' ? (
+            <CheckCircleOutlined className='icon' style={{ color: '#1e376d', fontSize: '25px' }} />
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Button onClick={() => { onCreate(record) }} style={{ backgroundColor: '#52c41a', borderBlockColor: '#52c41a', color: 'white', padding: 0, width: 90 }}>
+                สร้าง HN
+              </Button>
+            </div>
+          )}
+        </>
+      );
+    },
+    filters: [
+      { text: 'สร้าง HN แล้ว', value: 'created' },
+      { text: 'ยังไม่สร้าง HN', value: 'notcreated' }
+    ],
+    onFilter: (value, record) => record.create_hn_status === value,
+  },
+  {
+    key: 'detail',
+    title: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>รายละเอียด</div>,
+    render: (record) => {
+      return (
+        <>
+          <InfoCircleOutlined className='icon' onClick={() => { setDetails(record); setOpen(true); }} style={{ color: '#1e376d', fontSize: '25px' }} />
+        </>
+      )
+    }
+  },
+
+
+
+];
+
 
   const handleCopyClick = (value, setIsCopied) => {
     const tempInput = document.createElement('input');
     tempInput.value = value;
-  
+
     document.body.appendChild(tempInput);
-  
+
     tempInput.select();
-  
+
     document.execCommand('copy');
-  
+
     document.body.removeChild(tempInput);
-  
+
     setIsCopied(true);
-  
+
     setTimeout(() => {
       setIsCopied(false);
     }, 1000);
@@ -410,9 +335,6 @@ function HN() {
     // console.log(data)
   }
 
-  const [changwatName, setChangwatName] = useState('');
-  const [amphurName, setAmphurName] = useState('');
-  const [tambolName, setTambolName] = useState('');
   const onAddress = () => {
     const data = address.base_address;
     const tambol = details.fix_changwat_id + details.fix_amphur_id + details.fix_tambol_id
@@ -437,28 +359,29 @@ function HN() {
   }
 
 
-  // useEffect(() => {
-
-  //   console.log(details)
-  //   // Address();
-  // }, []);
-
   return (
+    
+    <>
 
-    <div>
       <AppHeader />
       <Navbar />
       <Appfooter />
-      <Table
-        className='table'
-        columns={columns}
-        dataSource={dataSource}
-        style={{ margin: '40px' }}
-        pagination={false}
-        scroll={{
-          x: 1000,
-        }}
-      />
+
+      {
+        waiting ? 
+        <Table
+          className='table'
+          columns={columns}
+          dataSource={data}
+          style={{ margin: '40px' }}
+          pagination={false}
+          scroll={{
+            x: 1200,
+          }}
+        />
+        :<img src={image} style={{ width: 50, position: 'absolute', top: '50%', left: '50%', marginTop: '-30px', marginLeft: '-30px'}} />
+      }
+      
       <Modal
         className='modal'
         title="รายละเอียด"
@@ -478,7 +401,7 @@ function HN() {
                   <FormItem name='fullname'>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <label className='detail-label' style={{ marginBottom: '8px' }}>ชื่อ - สกุล</label>
-                      <Input placeholder="" className='input' value={details.fullname} 
+                      <Input placeholder="" className='input' value={details.fullname}
                         suffix={
                           <div className='input-suffix'>
                             {fullnameIsCopied ? (
@@ -1000,7 +923,7 @@ function HN() {
         )}
       </Modal>
 
-    </div>
+    </>
   )
 }
 

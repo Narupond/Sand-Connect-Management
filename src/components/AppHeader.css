@@ -1,11 +1,39 @@
 .logo {
-    width: 150px;
-    height: 50px;
-    display: flex;
-    align-items: left;
-    margin: 10px 0px 0px 10px;
-  }
+  width: 150px;
+  height: 50px;
+  display: flex;
+  align-items: left;
+  margin: 10px 0px 0px 10px;
+}
 
-  /* .dropdown {
+ul.ant-dropdown-menu {
+  padding: 0;
+  text-align: center;
+  width: 70px;
+  float: right;
+}
+
+a.ant-dropdown-trigger {
+  max-width: 10px;
+}
+
+/* div.ant-col.ant-col-8 {
+  
+} */
+
+/* .user-name {
+  align-items: end;
+  justify-content: end;
+} */
+/* div.ant-dropdown {
+  
+} */
+/* div.ant-space-item {
+} */
+
+/* 
+
+
+/* .dropdown {
     float: right;
   } */
