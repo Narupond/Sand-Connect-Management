@@ -88,7 +88,7 @@ function Login() {
             <Button type="primary"
               htmlType="submit"
               className="login-button"
-              style={{ width: 300 }}
+              style={{ width: 300, background: '#1890FF', background: 'linear-gradient(0deg, #1890FF 0%, #69c0ff 100%)', boxShadow: '0px 5px 10px 0px rgba(0, 0, 0, 0.20)', borderColor: '#1890FF', border: 'none', color: 'white', padding: 0, height: 35 }}
               onClick={handleLogin}>
               Log in
             </Button>

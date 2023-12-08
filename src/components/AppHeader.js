@@ -1,13 +1,10 @@
 import React from 'react';
-import './AppHeader.css';
 import { Layout } from 'antd';
 import { Row, Col } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
-
 
 const { Header } = Layout;
 
@@ -34,14 +31,16 @@ function AppHeader() {
         <div className="App">
             <Layout>
                 <Row style={{ height: 70, background: '#fff' }}>
-                    <Col span={8} style={{ height: 70, }}>
-                        <img className='logo' alt='BHH' src='logo-en.png'></img>
+                    <Col span={12}>
+                        <img style={{ display: 'flex', width: '150px', height: '50px', margin: '10px 0 0 10px', marginLeft: '50px'  }} alt='BHH' src='logo-en.png'></img>
                     </Col>
-                    <Col span={12} offset={4} style={{ height: '70px', }}>
-                        <Dropdown
+                    <Col span={8}>
+                        <p className='user-name' style={{ float: 'right', color: '#1e376d', margin: 0, marginTop: 25, }}>ชื่อ : {data}</p>
+                    </Col>
+                    <Col span={2}>
+                    <Dropdown
                             menu={{
                                 items: [
-
                                     {
                                         label: 'logout',
                                         onClick: () => {
@@ -54,12 +53,13 @@ function AppHeader() {
                         >
                             <a onClick={(e) => e.preventDefault()}>
                                 <Space>
-                                    <p className='user-name' style={{ float: 'right', color: '#1e376d', margin: 0, marginTop: 25, marginLeft: 200}}>ชื่อ : {data}</p>
-                                    <DownOutlined style={{ float: 'right', margin: 0, marginTop: 25}}/>
+                                    <DownOutlined style={{ margin: 0, marginTop: 28, marginLeft: 10, marginRight: 80}}/>
                                 </Space>
                             </a>
                         </Dropdown>
-                        <img className='user' alt='user' src='user.png' style={{ float: 'right', width: '50px', height: '50px', marginRight: 50, marginTop: 10 }} />
+                    </Col>
+                    <Col span={2}>
+                        <img className='user' alt='user' src='user.png' style={{ float: 'right', width: '50px', height: '50px', marginRight: 55, marginTop: 10 }} />
                     </Col>
                 </Row>
             </Layout>

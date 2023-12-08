@@ -1,59 +1,13 @@
-/* .input {
-    font-family: 'Prompt', sans-serif;
-} */
-
-.icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.btn-create {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-/* .ant-table-thead th,
-.ant-table-tbody td {
-  text-align: center;
-} */
-
-.btn-search {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 10px;
-}
-
-.btn-reset {
-    border: none;
-    box-shadow: none;
-    color: rgb(205, 205, 205);
-}
-
 .modal .ant-modal-title {
     font-size: 20px;
+    /* align-items: center;
+    text-align: center;
+    justify-content: center; */
 }
-
-.p-text {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.modal {
-    overflow-y: hidden;
-}
-
-.detail-label {
-    font-weight: bold;
-}
-
 .copy {
     padding: 6px;
     background: #1890FF;
+    background: linear-gradient(0deg, #1890FF 0%, #69c0ff 100%);
     border-radius: 8px;
     color: white;
     cursor: pointer;
@@ -62,73 +16,3 @@
 .copy:active {
     background: rgba(24, 144, 255, 0.5);
 }
-
-div.ant-table-filter-dropdown {
-    width: 200px;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: left;
-    flex-direction: column;
-}
-
-div.ant-table-filter-dropdown ul {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-}
-
-div.ant-table-filter-dropdown li {
-    display: inline-block;
-    margin: 0 10px;
-    white-space: nowrap;
-}
-
-
-/* ul.ant-dropdown-menu {
-    display: flex; 
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f9f9f9;
-} */
-
-
-
-/* li.ant-dropdown-menu-item {
-    display: inline;
-} */
-
-/* .check {
-    padding: 4px 4px;
-    background: #1890FF;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-} */
-/* .copy::before{
-    content: "Copied";
-    position: absolute;
-    top: -50px;
-    right: 0px;
-    background: #1890FF;
-    padding: 8px 10px;
-    border-radius: 20px;
-    font-size: 15px;
-}
-.copy::after{
-    content: "";
-    position: absolute;
-    top: -20px;
-    right: 25px;
-    width: 10px;
-    height: 10px;
-    background: #1890FF;
-    transform: rotate(45deg);
-    display: none;
-} */
-/* .copy:active::before,
-.copy:active::after {
-    display: block;
-} */
